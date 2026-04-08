@@ -1,0 +1,15 @@
+@use "./../init" as *;
+
+.l-footer {
+    --c-font: #6a5b63;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__copyright {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--c-font);
+    }
+}

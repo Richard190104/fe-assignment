@@ -1,0 +1,25 @@
+{
+    "name": "fe-assignment",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" \"*.{js,json,md}\"",
+        "prettier:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" \"*.{js,json,md}\"",
+        "stylelint": "stylelint \"src/**/*.scss\" --fix",
+        "eslint": "eslint src/ --fix",
+        "eslint-dry-run": "eslint src/ --fix-dry-run",
+        "lint": "npm run prettier && npm run stylelint && npm run eslint"
+    },
+    "devDependencies": {
+        "@riesenia/fe-configs": "^3.0.4",
+        "sass": "^1.93.3",
+        "vite": "^7.1.7"
+    },
+    "dependencies": {
+        "lit-html": "^3.3.1"
+    }
+}

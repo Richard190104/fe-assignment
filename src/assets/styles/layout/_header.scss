@@ -1,0 +1,41 @@
+@use "./../init" as *;
+
+.l-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+        .c-link {
+            display: block;
+            height: 2rem;
+        }
+
+        .c-img {
+            max-height: 100%;
+        }
+    }
+
+    &__nav {
+        display: flex;
+        gap: 2.4rem;
+
+        .c-link {
+            font-weight: 700;
+            color: var(--c-white);
+            text-decoration: none;
+            text-underline-offset: 0.2em;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: var(--c-white);
+                text-decoration: underline;
+            }
+
+            &.is-active {
+                color: var(--c-white);
+                text-decoration: underline;
+            }
+        }
+    }
+}

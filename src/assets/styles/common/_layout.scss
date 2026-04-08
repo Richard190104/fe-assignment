@@ -1,0 +1,44 @@
+@use "./../init" as *;
+
+:root {
+    // base colors
+    --c-white: #fff;
+    --c-black: #000;
+    --c-border: #e0e2e8;
+
+    // project colors
+    --c-font: var(--c-black);
+    --c-bg: #f5f5f5;
+
+    // sizes
+    --s-container-padding: 2rem;
+
+    // fonts
+    --f-primary: system-ui, avenir, helvetica, arial, sans-serif;
+}
+
+body {
+    min-width: 36rem;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    font-family: var(--f-primary);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--c-font);
+    font-synthesis: none;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.l-container {
+    width: 100%;
+    max-width: 160rem;
+    padding: 0 var(--s-container-padding);
+    margin: 0 auto;
+
+    &.is-shorter {
+        max-width: 132rem;
+    }
+}

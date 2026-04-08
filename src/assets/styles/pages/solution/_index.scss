@@ -1,0 +1,10 @@
+@use "./../../init" as *;
+
+@use "./solution_banner";
+@use "./solution_content";
+
+.l-solution {
+    &__banner {
+        margin-bottom: 10rem;
+    }
+}
