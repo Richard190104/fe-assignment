@@ -14,4 +14,10 @@
         flex: 1;
         min-width: 0;
     }
+
+    &__products{
+        display: flex;
+        width: 100%;
+    }
+   
 }
