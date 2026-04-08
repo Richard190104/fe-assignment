@@ -2,14 +2,30 @@ import { html } from "lit-html";
 import { loadData } from "../dataLoader.js";
 import {rating} from "../components/productRating.js";
 import cartIcon from "../assets/images/cart-icon.svg";
+import { form } from "../components/modal.js";
 /**
  * Solution Page
  */
 
+const openModal = () => {
+    const modalElement = document.querySelector(".c-modal");
+    modalElement?.classList.add("is-open");
+};
+
+const closeModal = () => {
+    const modalElement = document.querySelector(".c-modal");
+    modalElement?.classList.remove("is-open");
+};
+
 // CTA button click handler
 const handleCtaClick = () => {
-    console.log("CTA button clicked");
-    // TODO: Implement email form/modal
+    openModal();
+};
+
+const handleModalBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+        closeModal();
+    }
 };
 
 // Banner button click handler
@@ -243,6 +259,13 @@ export const renderSolutionPage = (data) => {
                     ${solutionCategories(data.categories || [])}
                 </div>
             </div>
+
+            ${form({
+                title: "Tajná ponuka produktov Dewalt len pre vás",
+                isOpen: false,
+                onClose: closeModal,
+                onBackdropClick: handleModalBackdropClick,
+            })}
         </div>
     `;
 };
