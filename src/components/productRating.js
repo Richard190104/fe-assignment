@@ -1,6 +1,6 @@
 import { html } from 'lit-html';
 
-export const rating = (rating) => html`
+export const rating = (rating, reviewCount) => html`
     <div class="c-product-rating">
         <div class="c-product-rating__stars">
             ${[1, 2, 3, 4, 5].map((star) => html`
@@ -14,6 +14,6 @@ export const rating = (rating) => html`
                 </svg>
             `)}
         </div>
-        <div class="c-product-rating__value">(${rating.toFixed(1)})</div>
+        <div class="c-product-rating__count">(${reviewCount})</div>
     </div>
 `;

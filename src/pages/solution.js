@@ -1,6 +1,7 @@
 import { html } from "lit-html";
 import { loadData } from "../dataLoader.js";
 import {rating} from "../components/productRating.js";
+import cartIcon from "../assets/images/cart-icon.svg";
 /**
  * Solution Page
  */
@@ -16,6 +17,26 @@ const handleBannerClick = () => {
     console.log("Banner button clicked");
     // TODO: Navigate to products or filter
 };
+
+const calculatePercentageDiscount = (originalPrice, salePrice) => {
+    if (!originalPrice || !salePrice || originalPrice <= 0) {
+        return null;
+    }
+    const discount = ((originalPrice - salePrice) / originalPrice) * 100;
+    return Math.round(discount);
+};
+
+const productTag = (product) => html`
+    <div class="c-product-tag">
+        <span class="c-product-tag__text">-${calculatePercentageDiscount(product.originalPrice, product.salePrice)}%</span>
+    </div>
+     ${product.id == 1 ? html`<div class="c-product-tag-new">
+        <span class="c-product-tag__text">Novinka</span>
+    </div>` : ""}
+
+`
+
+
 
 // Solution main banner
 const solutionBanner = (banner) => html`
@@ -57,23 +78,39 @@ const solutionProductCard = (product) => html`
             <div class="c-solution-product-card__content__info">
                 ${product.rating ? rating(product.rating, product.reviewCount) : ""}
                 <h3 class="c-solution-product-card__content__title">${product.name}</h3>
-                <p>${product.sku}</p>
-                <s>${product.originalPrice} €</s>
-                <p>${product.salePrice} €</p>
-                <p>${product.priceWithoutVAT} €</p>
-                <p>${product.stock}</p>
+                <p class="c-solution-product-card__content__gray">${product.sku}</p>
+                <div class="c-solution-product-card__content__prices">
+                    <del class="c-solution-product-card__content__original-price">${product.originalPrice} ${product.currency}</del>
+                    <p>
+                        <data class="c-solution-product-card__content__current-price" value="${product.salePrice}">
+                            ${product.salePrice} ${product.currency}
+                        </data>
+                    </p>
+                    <p class="c-solution-product-card__content__gray">${product.priceWithoutVAT} ${product.currency} bez DPH</p>
+                    <p class="c-solution-product-card__content__green">${product.stock}</p>
+                </div>
+               
                 <div class="c-solution-product-card__content__actions">
-                    <div>
-                        <button>-</button>
+                    <div class="c-solution-product-card__content__actions__quantity">
+                        <button class="c-solution-product-card__content__actions__quantity__button">-</button>
                         <input type="number" min="1" value="1" />
-                        <button>+</button>
+                        <button class="c-solution-product-card__content__actions__quantity__button">+</button>
 
                     </div>
-                    <button > Do košíka</button>
+                    <button class="c-solution-product-card__content__actions__cart-button">
+                        <img
+                            class="c-solution-product-card__content__actions__cart-icon"
+                            src="${cartIcon}"
+                            alt=""
+                            aria-hidden="true"
+                        />
+                        <span>Do košíka</span>
+                    </button>
                 </div>
             </div>
             
         </div>
+        ${product.originalPrice && product.salePrice ? productTag(product) : ""}
     </div>
 `;  
 
