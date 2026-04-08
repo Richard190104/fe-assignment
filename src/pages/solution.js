@@ -77,6 +77,47 @@ const solutionProductCard = (product) => html`
     </div>
 `;  
 
+const solutionCategoryCard = (category, index) => html`
+    <article class="c-solution-category-card ${index === 4 ? "is-tall" : ""}">
+        <div class="c-solution-category-card__image" style="background-image: url(${category.imageUrl})"></div>
+        <div class="c-solution-category-card__overlay"></div>
+        <div class="c-solution-category-card__content">
+            <div class="c-solution-category-card__header">
+                <h3 class="c-solution-category-card__title">${category.name}</h3>
+                <span class="c-solution-category-card__count">${category.productCount}</span>
+            </div>
+
+            <ul
+                class="c-solution-category-card__list ${category.subcategories?.length > 3
+                    ? "is-two-columns"
+                    : ""}"
+            >
+                ${(category.subcategories || []).slice(0, 9).map(
+                    (subcategory) => html`
+                        <li class="c-solution-category-card__item">
+                            <a href="${subcategory.link}" class="c-solution-category-card__sublink"
+                                >${subcategory.name}</a
+                            >
+                        </li>
+                    `
+                )}
+            </ul>
+
+            <a href="${category.link}" class="c-solution-category-card__link">
+                ${category.ctaText}
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+    </article>
+`;
+
+const solutionCategories = (categories = []) => html`
+    <section class="c-solution-categories">
+        <h2 class="c-solution-categories__title">Top kategórie produktov</h2>
+        <div class="c-solution-categories__grid">${categories.map(solutionCategoryCard)}</div>
+    </section>
+`;
+
 // Solution CTA section
 const solutionCta = (ctaBanner) => html`
         <div class="c-solution-cta">
@@ -149,8 +190,8 @@ export const renderSolutionPage = (data) => {
             </div>
 
             <div class="l-solution__categories">
-                <div class="l-container">
-                    <div class="c-solution-categories"></div>
+                <div class="l-container  is-shorter">
+                    ${solutionCategories(data.categories || [])}
                 </div>
             </div>
         </div>
