@@ -36,7 +36,19 @@ const productTag = (product) => html`
 
 `
 
+function handleQuantityChange(product, change) {
+    const quantityInput = document.getElementById(`${product.id}-quantity`);
+    if (!quantityInput) {
+        return;
+    }
 
+    let currentQuantity = parseInt(quantityInput.value, 10);
+    currentQuantity += change;
+    if (currentQuantity < 1) {
+        currentQuantity = 1;
+    }
+    quantityInput.value = currentQuantity;
+}
 
 // Solution main banner
 const solutionBanner = (banner) => html`
@@ -92,9 +104,9 @@ const solutionProductCard = (product) => html`
                
                 <div class="c-solution-product-card__content__actions">
                     <div class="c-solution-product-card__content__actions__quantity">
-                        <button class="c-solution-product-card__content__actions__quantity__button">-</button>
-                        <input type="number" min="1" value="1" />
-                        <button class="c-solution-product-card__content__actions__quantity__button">+</button>
+                        <button class="c-solution-product-card__content__actions__quantity__button" @click=${() => handleQuantityChange(product, -1)}>-</button>
+                        <input type="number" min="1" value="1" id="${product.id}-quantity"/>
+                        <button class="c-solution-product-card__content__actions__quantity__button" @click=${() => handleQuantityChange(product, 1)}>+</button>
 
                     </div>
                     <button class="c-solution-product-card__content__actions__cart-button">
