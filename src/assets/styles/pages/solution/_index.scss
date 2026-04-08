@@ -2,6 +2,8 @@
 
 @use "./solution_banner";
 @use "./solution_content";
+@use "./solution_cta";
+@use "./solution_product";
 
 .l-solution {
     &__banner {

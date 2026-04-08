@@ -1,7 +1,34 @@
 import { CONFIG } from "./config.js";
 
-const CACHE_KEY = "fe_assignment_data_cache";
-const CACHE_TIMESTAMP_KEY = "fe_assignment_data_timestamp";
+import mainBannerImage from "./assets/images/main-banner.jpg";
+import secretOfferBannerImage from "./assets/images/secret-offer-banner.jpg";
+import productDewaltImage from "./assets/images/product-dewalt.png";
+import productMetaboImage from "./assets/images/product-metabo.png";
+import categoryAccImage from "./assets/images/product-categories-acc..jpg";
+import categoryCleaningImage from "./assets/images/product-categories-cleaning.jpg";
+import categoryElectricToolsImage from "./assets/images/product-categories-electric-tools.jpg";
+import categoryGardenImage from "./assets/images/product-categories-garden.jpg";
+import categoryToolsImage from "./assets/images/product-categories-tools.jpg";
+
+const CACHE_KEY = "fe_assignment_data_cache_v2";
+const CACHE_TIMESTAMP_KEY = "fe_assignment_data_timestamp_v2";
+
+const PRODUCT_LOCAL_IMAGES = [productDewaltImage, productMetaboImage];
+const CATEGORY_LOCAL_IMAGES = [
+    categoryElectricToolsImage,
+    categoryGardenImage,
+    categoryCleaningImage,
+    categoryToolsImage,
+    categoryAccImage,
+];
+
+const withForcedLocalImage = (item, localImage) => {
+    if (!item || typeof item !== "object") {
+        return item;
+    }
+
+    return localImage ? { ...item, imageUrl: localImage } : item;
+};
 
 /**
  * Check if cached data is still valid
@@ -77,10 +104,14 @@ export const loadData = async () => {
         ]);
 
         const data = {
-            banner: banner.data,
-            ctaBanner: ctaBanner.data,
-            products: products.data,
-            categories: categories.data,
+            banner: withForcedLocalImage(banner.data, mainBannerImage),
+            ctaBanner: withForcedLocalImage(ctaBanner.data, secretOfferBannerImage),
+            products: Array.isArray(products.data)
+                ? products.data.map((item, index) => withForcedLocalImage(item, PRODUCT_LOCAL_IMAGES[index]))
+                : [],
+            categories: Array.isArray(categories.data)
+                ? categories.data.map((item, index) => withForcedLocalImage(item, CATEGORY_LOCAL_IMAGES[index]))
+                : [],
         };
 
         // Cache data in DEV mode
