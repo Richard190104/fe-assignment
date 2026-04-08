@@ -14,7 +14,8 @@
     --s-container-padding: 2rem;
 
     // fonts
-    --f-primary: system-ui, avenir, helvetica, arial, sans-serif;
+    --f-primary: "DM Sans", system-ui, avenir, helvetica, arial, sans-serif;
+    --f-title: "Wix Madefor Display", "DM Sans", system-ui, sans-serif;
 }
 
 body {
@@ -30,6 +31,15 @@ body {
     text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--f-title);
 }
 
 .l-container {

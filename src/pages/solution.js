@@ -88,7 +88,7 @@ const solutionCategoryCard = (category, index) => html`
             </div>
 
             <ul
-                class="c-solution-category-card__list ${category.subcategories?.length > 3
+                class="c-solution-category-card__list ${category.subcategories?.length > 3 && index !== 4
                     ? "is-two-columns"
                     : ""}"
             >
