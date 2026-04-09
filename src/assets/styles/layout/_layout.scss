@@ -25,3 +25,19 @@
         border-top: 1px solid var(--c-border);
     }
 }
+
+@media (max-width: 1200px) {
+    .l-page {
+        &__header {
+            padding: 1.6rem 0;
+        }
+
+        &__main {
+            padding: 0;
+        }
+
+        &__footer {
+            padding: 1.2rem 0;
+        }
+    }
+}

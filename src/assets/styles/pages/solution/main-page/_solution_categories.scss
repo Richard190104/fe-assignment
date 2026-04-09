@@ -165,8 +165,9 @@
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1250px) {
     .c-solution-categories {
+        
         &__grid {
             grid-template-columns: 1fr 1fr;
             grid-auto-rows: 26rem;

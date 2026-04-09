@@ -13,11 +13,40 @@
     &__products {
         flex: 1;
         min-width: 0;
-    }
-
-    &__products{
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem;
+        align-content: start;
+        justify-items: stretch;
         width: 100%;
     }
    
+}
+
+@media (max-width: 1250px) {
+    .c-solution-content {
+        flex-direction: column;
+        gap: 4.8rem;
+
+        &__cta {
+            width: 100%;
+        }
+
+        &__products {
+            width: 100%;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+}
+
+@media (max-width: 550px){
+    .c-solution-content {
+        &__products {
+            grid-template-columns: 1fr;
+            justify-items: center;
+        }
+
+    }
+
+
 }

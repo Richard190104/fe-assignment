@@ -2,18 +2,18 @@
 
 .c-solution-product-card {
     position: relative;
-    width: 50%;
-    overflow: hidden;
+    width: 100%;
+    overflow: visible;
     border-radius: 0.8rem;
-    margin: 0 2%;
+    margin: 0;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    padding: 3%;
+    padding: 2rem;
 
     &__content {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 50% 50%;
-        height: 100%;
+        grid-template-rows: 24rem 1fr;
+        gap: 1.6rem;
         &__title {
             margin: 0;
             font-family: "Wix Madefor Display", sans-serif;
@@ -37,23 +37,27 @@
             grid-row: 2;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            min-height: 0;
 
         }
         &__image-wrapper {
             width: 100%;
             display: flex;
+            align-items: center;
             justify-content: center;
             overflow: hidden;
             grid-row: 1;
+            min-height: 24rem;
         }
         &__image {
             inset: 0;
             background-position: center;
             border-radius: 0.8rem;
             display: block;
-            width: 80%;
+            width: auto;
+            max-width: 80%;
             height: 100%;
+            max-height: 100%;
             object-fit: contain;
             object-position: center;
             transition: transform 0.3s ease;
@@ -95,10 +99,9 @@
         &__actions {
             display: grid;
             grid-template-columns: 40% 50%;
-            margin-top: 2.4rem;
             gap: 10%;
             margin-top: auto;
-            margin-bottom: 8%;
+            margin-bottom: 0;
         
             &__quantity{
                 display: inline-flex;
@@ -222,5 +225,40 @@
     }
     .c-product-tag:hover{
         transform: translateY(-5%);
+    }
+}
+
+@media (max-width: 768px) {
+    .c-solution-product-card {
+        width: 100%;
+        margin: 0;
+        padding: 1.6rem;
+
+        &__content {
+            grid-template-rows: 18rem 1fr;
+
+            &__image-wrapper {
+                min-height: 18rem;
+            }
+
+            &__image {
+                max-width: 72%;
+            }
+
+            &__actions {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+
+                &__quantity {
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .c-solution-product-card {
+        width: 80%;       
     }
 }

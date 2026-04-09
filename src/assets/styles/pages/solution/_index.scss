@@ -11,3 +11,11 @@
         margin-bottom: 10rem;
     }
 }
+
+@media (max-width: 1250px) {
+    .l-solution {
+        &__banner {
+            margin-bottom: 4rem;
+        }
+    }
+}

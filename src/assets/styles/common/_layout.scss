@@ -52,3 +52,10 @@ h6 {
         max-width: 132rem;
     }
 }
+
+@media (max-width: 1200px) {
+    .l-container:not(.is-shorter) {
+        padding: 0 0;
+        border-radius: 0px;
+    }
+}

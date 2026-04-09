@@ -2,7 +2,7 @@
 
 .c-solution-banner {
     position: relative;
-    height: 56.9rem;
+    min-height: 56.9rem;
     overflow: hidden;
     border-radius: 0.8rem;
 
@@ -38,7 +38,7 @@
         color: #fff;
 
         &__title {
-            width: 52rem;
+            width: min(52rem, 100%);
             margin: 0;
             font-family: "Wix Madefor Display", sans-serif;
             font-size: 5.2rem;
@@ -47,7 +47,7 @@
         }
 
         &__description {
-            width: 52rem;
+            width: min(52rem, 100%);
             margin: 0;
             font-family: "DM Sans", sans-serif;
             font-size: 1.6rem;
@@ -91,6 +91,55 @@
                 flex-shrink: 0;
                 width: 2rem;
                 height: 2rem;
+            }
+        }
+    }
+}
+
+
+
+@media (max-width: 1200px) {
+    .c-solution-banner {
+        min-height: 48rem;
+        border-radius: 0;
+        &__content {
+
+            &__title {
+                font-size: 4.2rem;
+            
+            }
+          
+        }
+                  &__image,
+        &__overlay {
+            border-radius: 0;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .c-solution-banner {
+        height: 40rem;
+    
+
+        &__content {
+            justify-content: flex-end;
+            gap: 1.8rem;
+            padding: 2.4rem 2rem;
+
+            &__title {
+                font-size: 3rem;
+                line-height: 1.15;
+            }
+
+            &__description {
+                font-size: 1.4rem;
+            }
+
+            &__button {
+                width: 100%;
+                justify-content: center;
+                padding: 1.4rem 1.6rem;
             }
         }
     }
