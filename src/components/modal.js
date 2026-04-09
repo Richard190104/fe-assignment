@@ -72,7 +72,7 @@ function handleFieldInput(event) {
     }
 }
 
-async function handleSubmit(e) {
+async function handleSubmit(e, { onSuccess, onClose } = {}) {
     e.preventDefault();
 
     const formElement = e.currentTarget;
@@ -136,9 +136,17 @@ async function handleSubmit(e) {
 
     formElement.reset();
     showFormMessage(formElement, "Formulár bol úspešne odoslaný!", "is-success");
+
+    onSuccess?.({
+        title: "Formulár odoslaný",
+        message: "Ďakujeme, ozveme sa vám čo najskôr.",
+        type: "success",
+    });
+
+        onClose?.();
 }
 
-export const form = ({ title, description, isOpen, onClose, onBackdropClick }) => html`
+export const form = ({ title, description, isOpen, onClose, onBackdropClick, onSuccess }) => html`
     <div class="c-modal ${isOpen ? "is-open" : ""}" @click=${onBackdropClick} ?hidden=${!isOpen}>
         <div class="c-modal__dialog" role="dialog" aria-modal="true" aria-label=${title}>
             <button class="c-modal__close" @click=${onClose} aria-label="Zatvoriť formulár">×</button>
@@ -147,7 +155,7 @@ export const form = ({ title, description, isOpen, onClose, onBackdropClick }) =
                     <h2 class="c-modal-form__title">${title}</h2>
                     <p class="c-modal-form__required"><span aria-hidden="true">*</span> povinné polia</p>
                 </div>
-                <form class="c-modal-form__form" @submit=${handleSubmit} novalidate>
+                <form class="c-modal-form__form" @submit=${(e) => handleSubmit(e, { onSuccess, onClose })} novalidate>
                     <p class="c-modal-form__status" aria-live="polite"></p>
                     <label class="c-modal-form__field">
                         <span class="c-modal-form__field-label">E-mail <span aria-hidden="true">*</span></span>

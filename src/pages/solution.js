@@ -3,9 +3,34 @@ import { loadData } from "../dataLoader.js";
 import {rating} from "../components/productRating.js";
 import cartIcon from "../assets/images/cart-icon.svg";
 import { form } from "../components/modal.js";
+import { notification } from "../components/notification.js";
 /**
  * Solution Page
  */
+
+let notificationTimeoutId;
+
+const showNotification = ({ title, message, type = "success", duration = 3000 }) => {
+    const notificationElement = document.querySelector(".c-notification");
+    const titleNode = notificationElement?.querySelector(".c-notification__title");
+    const messageNode = notificationElement?.querySelector(".c-notification__message");
+
+    if (!notificationElement || !titleNode || !messageNode) {
+        return;
+    }
+
+    notificationElement.classList.remove("is-success", "is-error");
+    notificationElement.classList.add(type === "error" ? "is-error" : "is-success");
+
+    titleNode.textContent = title;
+    messageNode.textContent = message;
+
+    notificationElement.classList.add("is-visible");
+    window.clearTimeout(notificationTimeoutId);
+    notificationTimeoutId = window.setTimeout(() => {
+        notificationElement.classList.remove("is-visible");
+    }, duration);
+};
 
 const openModal = () => {
     const modalElement = document.querySelector(".c-modal");
@@ -34,6 +59,43 @@ const handleModalBackdropClick = (event) => {
 const handleBannerClick = () => {
     console.log("Banner button clicked");
     // TODO: Navigate to products or filter
+};
+
+const handleAddToCart = (product) => {
+    const quantityInput = document.getElementById(`${product.id}-quantity`);
+
+    const quantity = Number.parseInt(quantityInput?.value, 10);
+    const isSuccess = Number.isInteger(quantity) && quantity > 0 && quantity <= 10;
+
+    if (isSuccess) {
+        showNotification({
+            title: "Produkt pridaný do košíka",
+            message: `${product.name} (${quantity} ks)`,
+            type: "success",
+        });
+    } else {
+        let message = "Zvoľte platné množstvo aspoň 1 ks.";
+        if (!Number.isInteger(quantity) || quantity <= 0) {
+            message = "Zvoľte platné množstvo aspoň 1 ks.";
+        } else {
+            message = "Maximálne množstvo pre tento produkt je 10 ks.";
+        }
+
+        showNotification({
+            title: "Produkt sa nepodarilo pridať",
+            message,
+            type: "error",
+        });
+    }
+};
+
+const handleFormSubmitSuccess = ({ title, message, type }) => {
+    showNotification({
+        title,
+        message,
+        type,
+        duration: 3200,
+    });
 };
 
 const calculatePercentageDiscount = (originalPrice, salePrice) => {
@@ -127,7 +189,7 @@ const solutionProductCard = (product) => html`
                         <button class="c-solution-product-card__content__actions__quantity__button" @click=${() => handleQuantityChange(product, 1)}>+</button>
 
                     </div>
-                    <button class="c-solution-product-card__content__actions__cart-button">
+                    <button class="c-solution-product-card__content__actions__cart-button" @click=${() => handleAddToCart(product)}>
                         <img
                             class="c-solution-product-card__content__actions__cart-icon"
                             src="${cartIcon}"
@@ -267,7 +329,10 @@ export const renderSolutionPage = (data) => {
                 isOpen: false,
                 onClose: closeModal,
                 onBackdropClick: handleModalBackdropClick,
+                onSuccess: handleFormSubmitSuccess,
             })}
+            
+            ${notification("", "", "success")}
         </div>
     `;
 };

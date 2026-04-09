@@ -1,0 +1,72 @@
+.c-notification {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: min(50rem, calc(100vw - 4rem));
+    min-height: 8.4rem;
+    padding: 1.2rem 1.6rem 1.2rem 2rem;
+    border-radius: 0.8rem;
+    border: 1px solid #e5e7eb;
+    border-left: 0.4rem solid #dd1969;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.6rem);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgb(17 24 39 / 12%);
+    gap: 0.2rem;
+    overflow: hidden;
+
+    &.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    &.is-success {
+        border-color: #cce7da;
+        border-left-color: #10b981;
+    }
+
+    &.is-error {
+        border-color: #f2cfd3;
+        border-left-color: #ef4444;
+    }
+
+    &__title,
+    &__message {
+        margin: 0;
+        color: #1c1830;
+        font-family: "Wix Madefor Display", sans-serif;
+        text-align: left;
+        width: 100%;
+    }
+
+    &__title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+    }
+
+    &__message {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #4f4a62;
+    }
+}
+
+@media (max-width: 768px) {
+    .c-notification {
+        top: 1rem;
+        right: 1rem;
+        width: calc(100vw - 2rem);
+        min-height: 6rem;
+        padding: 1rem 1.2rem 1rem 1.6rem;
+    }
+}
