@@ -1,8 +1,9 @@
-@use "./../../init" as *;
+@use "./../../../init" as *;
 
-.c-solution-banner {
+.c-solution-cta {
     position: relative;
-    height: 56.9rem;
+    width: 64rem;
+    height: 54rem;
     overflow: hidden;
     border-radius: 0.8rem;
 
@@ -17,12 +18,7 @@
     &__overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(
-            90deg,
-            rgb(0 0 0 / 60%) 0%,
-            rgb(0 0 0 / 20%) 50%,
-            transparent 100%
-        );
+        background: rgb(0 0 0 / 40%);
         border-radius: 0.8rem;
     }
 
@@ -30,29 +26,27 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: 3.2rem;
+        gap: 2.4rem;
         align-items: flex-start;
-        justify-content: center;
+        justify-content: flex-end;
         height: 100%;
-        padding: 12.8rem 9.7rem;
+        padding: 4.8rem;
         color: #fff;
 
         &__title {
-            width: 52rem;
             margin: 0;
             font-family: "Wix Madefor Display", sans-serif;
-            font-size: 5.2rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1.25;
+            line-height: 1.2;
         }
 
         &__description {
-            width: 52rem;
             margin: 0;
             font-family: "DM Sans", sans-serif;
             font-size: 1.6rem;
             font-weight: 400;
-            line-height: 1.4;
+            line-height: 1.6;
 
             strong {
                 font-weight: 800;
@@ -80,14 +74,14 @@
                 background: #a01249;
             }
 
-            .sb-text {
+            .sc-text {
                 font-family: "Wix Madefor Display", sans-serif;
                 font-size: 1.6rem;
                 font-weight: 700;
                 white-space: nowrap;
             }
 
-            .sb-icon {
+            .sc-icon {
                 flex-shrink: 0;
                 width: 2rem;
                 height: 2rem;
