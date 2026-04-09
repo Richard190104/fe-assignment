@@ -4,6 +4,7 @@ import {rating} from "../components/productRating.js";
 import cartIcon from "../assets/images/cart-icon.svg";
 import { form } from "../components/modal.js";
 import { notification } from "../components/notification.js";
+import { asNumber, asText, formatCurrency } from "../utils/display.js";
 /**
  * Solution Page
  */
@@ -99,10 +100,13 @@ const handleFormSubmitSuccess = ({ title, message, type }) => {
 };
 
 const calculatePercentageDiscount = (originalPrice, salePrice) => {
-    if (!originalPrice || !salePrice || originalPrice <= 0) {
+    const safeOriginalPrice = asNumber(originalPrice, Number.NaN);
+    const safeSalePrice = asNumber(salePrice, Number.NaN);
+
+    if (!Number.isFinite(safeOriginalPrice) || !Number.isFinite(safeSalePrice) || safeOriginalPrice <= 0) {
         return null;
     }
-    const discount = ((originalPrice - salePrice) / originalPrice) * 100;
+    const discount = ((safeOriginalPrice - safeSalePrice) / safeOriginalPrice) * 100;
     return Math.round(discount);
 };
 
@@ -110,7 +114,7 @@ const productTag = (product) => html`
     <div class="c-product-tag">
         <span class="c-product-tag__text">-${calculatePercentageDiscount(product.originalPrice, product.salePrice)}%</span>
     </div>
-     ${product.id == 1 ? html`<div class="c-product-tag-new">
+     ${asText(product.id) === "1" ? html`<div class="c-product-tag-new">
         <span class="c-product-tag__text">Novinka</span>
     </div>` : ""}
 
@@ -161,25 +165,42 @@ const solutionBanner = (banner) => html`
     </div>
 `;
 
+const getShortenText = (text, maxLength) => {
+    if (typeof text !== "string") {
+        return text;
+    }
+    if (text.length <= maxLength) {
+        return text;
+    }
+    return text.slice(0, maxLength) + "...";
+}
+
+const emptyState = (title, description = "Skúste prosím obnoviť stránku.", className = "") => html`
+    <div class="c-empty-state ${className}">
+        <h3 class="c-empty-state__title">${title}</h3>
+        <p class="c-empty-state__description">${description}</p>
+    </div>
+`;
+
 const solutionProductCard = (product) => html`
     <div class="c-solution-product-card">
         <div class="c-solution-product-card__content">
             <div class="c-solution-product-card__content__image-wrapper">
-                <img class="c-solution-product-card__content__image" src="${product.imageUrl}" alt="${product.name}" />
+                <img class="c-solution-product-card__content__image" src="${product.imageUrl}" alt="${asText(product.name, "Produkt")}" />
             </div>
             <div class="c-solution-product-card__content__info">
-                ${product.rating ? rating(product.rating, product.reviewCount) : ""}
-                <h3 class="c-solution-product-card__content__title">${product.name}</h3>
-                <p class="c-solution-product-card__content__gray">${product.sku}</p>
+                ${Number.isFinite(asNumber(product.rating, Number.NaN)) ? rating(product.rating, product.reviewCount) : "Hodnotenia nie sú k dispozícii"}
+                <h3 class="c-solution-product-card__content__title">${getShortenText(product.name, 25)}</h3>
+                <p class="c-solution-product-card__content__gray">${asText(getShortenText(product.sku, 25), "SKU nie je k dispozícii")}</p>
                 <div class="c-solution-product-card__content__prices">
-                    <del class="c-solution-product-card__content__original-price">${product.originalPrice} ${product.currency}</del>
+                    <del class="c-solution-product-card__content__original-price">${formatCurrency(product.originalPrice, product.currency)}</del>
                     <p>
-                        <data class="c-solution-product-card__content__current-price" value="${product.salePrice}">
-                            ${product.salePrice} ${product.currency}
+                        <data class="c-solution-product-card__content__current-price" value="${asNumber(product.salePrice, 0)}">
+                            ${formatCurrency(product.salePrice, product.currency)}
                         </data>
                     </p>
-                    <p class="c-solution-product-card__content__gray">${product.priceWithoutVAT} ${product.currency} bez DPH</p>
-                    <p class="c-solution-product-card__content__green">${product.stock}</p>
+                    <p class="c-solution-product-card__content__gray">${formatCurrency(product.priceWithoutVAT, product.currency)} bez DPH</p>
+                    <p class="c-solution-product-card__content__green">${asText(getShortenText(product.stock, 27), "Žiadne dostupné informácie")}</p>
                 </div>
                
                 <div class="c-solution-product-card__content__actions">
@@ -206,34 +227,32 @@ const solutionProductCard = (product) => html`
     </div>
 `;  
 
+const MAX_SUBCATEGORIES_PER_CATEGORY = 8;
+
 const solutionCategoryCard = (category, index) => html`
-    <article class="c-solution-category-card ${index === 4 ? "is-tall" : ""}">
+    <article class="c-solution-category-card">
         <div class="c-solution-category-card__image" style="background-image: url(${category.imageUrl})"></div>
         <div class="c-solution-category-card__overlay"></div>
         <div class="c-solution-category-card__content">
             <div class="c-solution-category-card__header">
-                <h3 class="c-solution-category-card__title">${category.name}</h3>
-                <span class="c-solution-category-card__count">${category.productCount}</span>
+                <h3 class="c-solution-category-card__title">${asText(getShortenText(category.name, 50), "Kategória bez názvu")}</h3>
+                <span class="c-solution-category-card__count">${asNumber(category.productCount, 0)}</span>
             </div>
 
-            <ul
-                class="c-solution-category-card__list ${category.subcategories?.length > 3 && index !== 4
-                    ? "is-two-columns"
-                    : ""}"
-            >
-                ${(category.subcategories || []).slice(0, 9).map(
+            <ul class="c-solution-category-card__list">
+                ${(category.subcategories || []).slice(0, MAX_SUBCATEGORIES_PER_CATEGORY).map(
                     (subcategory) => html`
                         <li class="c-solution-category-card__item">
-                            <a href="${subcategory.link}" class="c-solution-category-card__sublink"
-                                >${subcategory.name}</a
+                            <a href="${subcategory.link || "#"}" class="c-solution-category-card__sublink"
+                                >${asText(getShortenText(subcategory.name, 50), "Bez názvu")}</a
                             >
                         </li>
                     `
                 )}
             </ul>
 
-            <a href="${category.link}" class="c-solution-category-card__link">
-                ${category.ctaText}
+            <a href="${category.link || "#"}" class="c-solution-category-card__link">
+                ${asText(category.ctaText, "Zobraziť viac")}
                 <span aria-hidden="true">→</span>
             </a>
         </div>
@@ -243,7 +262,9 @@ const solutionCategoryCard = (category, index) => html`
 const solutionCategories = (categories = []) => html`
     <section class="c-solution-categories">
         <h2 class="c-solution-categories__title">Top kategórie produktov</h2>
-        <div class="c-solution-categories__grid">${categories.map(solutionCategoryCard)}</div>
+        ${categories.length > 0
+            ? html`<div class="c-solution-categories__grid">${categories.map(solutionCategoryCard)}</div>`
+            : emptyState("Could not load categories.", "", "c-empty-state--categories")}
     </section>
 `;
 
@@ -301,18 +322,27 @@ export const renderSolutionPage = (data) => {
     return html`
         <div class="l-solution">
             <div class="l-solution__banner">
-                <div class="l-container">${data.banner ? solutionBanner(data.banner) : html``}</div>
+                <div class="l-container">
+                    ${data.banner
+                        ? solutionBanner(data.banner)
+                        : emptyState("Something went wrong.", "Could not load banner.", "c-empty-state--banner")}
+                </div>
             </div>
 
             <div class="l-solution__content">
                 <div class="l-container is-shorter">
                     <div class="c-solution-content">
-                        <div class="c-solution-content__cta">
-                            ${data.ctaBanner ? solutionCta(data.ctaBanner) : html``}
-                        </div>
-                            
+                        
+
                         <div class="c-solution-content__products">
-                            ${data.products?.map(solutionProductCard) || html``}
+                        <div class="c-solution-content__banner">
+                            ${data.ctaBanner
+                                ? solutionCta(data.ctaBanner)
+                                : emptyState("Something went wrong.", "Could not load CTA banner.", "c-empty-state--cta")}
+                        </div>
+                            ${(data.products?.length ?? 0) > 0
+                                ? data.products.map(solutionProductCard)
+                                : emptyState("Could not load products.", "", "c-empty-state--products")}
                         </div>
                     </div>
                 </div>
