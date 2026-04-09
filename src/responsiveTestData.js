@@ -12,7 +12,7 @@ const MIXED_TEXT_VALUE = 42;
 const MIXED_NUMERIC_STRING = "129,8";
 
 const createProductVariant = (product, index) => {
-    const factor = 1 + ((index % 4) * 0.08);
+    const factor = 1 + (index % 4) * 0.08;
     const variantLabel = createVariantLabel(index);
     const shouldUseLongName = index % 5 === 0;
     const shouldHideStock = index % 7 === 0;
@@ -37,9 +37,21 @@ const createProductVariant = (product, index) => {
             : shouldUseStringPrice
               ? `${scalePrice(product.originalPrice, factor)}`
               : scalePrice(product.originalPrice, factor),
-        salePrice: shouldDropPrices ? null : shouldUseStringPrice ? MIXED_NUMERIC_STRING : scalePrice(product.salePrice, factor),
-        priceWithoutVAT: shouldDropPrices ? null : index % 10 === 0 ? MIXED_NUMERIC_STRING : scalePrice(product.priceWithoutVAT, factor),
-        reviewCount: shouldDropRating ? null : index % 2 === 0 ? `${Number(product.reviewCount || 0) + index}` : Number(product.reviewCount || 0) + index,
+        salePrice: shouldDropPrices
+            ? null
+            : shouldUseStringPrice
+              ? MIXED_NUMERIC_STRING
+              : scalePrice(product.salePrice, factor),
+        priceWithoutVAT: shouldDropPrices
+            ? null
+            : index % 10 === 0
+              ? MIXED_NUMERIC_STRING
+              : scalePrice(product.priceWithoutVAT, factor),
+        reviewCount: shouldDropRating
+            ? null
+            : index % 2 === 0
+              ? `${Number(product.reviewCount || 0) + index}`
+              : Number(product.reviewCount || 0) + index,
         stock: shouldHideStock ? null : index % 3 === 0 ? "Na sklade viac ako 20ks" : product.stock,
         currency: index % 7 === 0 ? 978 : product.currency,
     };
@@ -62,14 +74,19 @@ const createCategoryVariant = (category, index) => {
             : shouldUseLongName
               ? `${category.name} ${variantLabel} s veľmi dlhým názvom kategórie pre testovanie gridu a zalamovania`
               : `${category.name} ${variantLabel}`,
-        productCount: shouldDropCount ? null : shouldUseNumericCount ? `${Number(category.productCount || 0) + index}` : Number(category.productCount || 0) + index,
+        productCount: shouldDropCount
+            ? null
+            : shouldUseNumericCount
+              ? `${Number(category.productCount || 0) + index}`
+              : Number(category.productCount || 0) + index,
         ctaText: index % 2 === 0 ? 999 : category.ctaText,
         link: shouldDropLink ? null : category.link,
         subcategories: shouldDropSubcategories
             ? []
             : Array.isArray(category.subcategories)
               ? Array.from({ length: 20 }, (_, subIndex) => {
-                    const sourceSubcategory = category.subcategories[subIndex % category.subcategories.length];
+                    const sourceSubcategory =
+                        category.subcategories[subIndex % category.subcategories.length];
 
                     return {
                         ...sourceSubcategory,
@@ -201,12 +218,14 @@ export const createManyCategoriesTestData = (baseData) => {
     return {
         ...baseData,
         products: expandCollection(baseData.products, 24, createProductVariant),
-        categories: expandCollection(baseData.categories, 30, createCategoryVariant).map((category, index) => ({
-            ...category,
-            subcategories: Array.isArray(category.subcategories)
-                ? category.subcategories.slice(0, index % 3 === 0 ? 3 : 10)
-                : [],
-        })),
+        categories: expandCollection(baseData.categories, 30, createCategoryVariant).map(
+            (category, index) => ({
+                ...category,
+                subcategories: Array.isArray(category.subcategories)
+                    ? category.subcategories.slice(0, index % 3 === 0 ? 3 : 10)
+                    : [],
+            })
+        ),
     };
 };
 
@@ -235,7 +254,11 @@ export const createRandomScenarioTestData = (baseData) => {
                   ctaText: randomInt(100, 999),
               },
         products: expandCollection(baseData.products, productTarget, createProductVariant),
-        categories: expandCollection(baseData.categories, categoryTarget, createCategoryVariant).map((category, index) => ({
+        categories: expandCollection(
+            baseData.categories,
+            categoryTarget,
+            createCategoryVariant
+        ).map((category, index) => ({
             ...category,
             subcategories:
                 Math.random() < 0.2

@@ -11,7 +11,8 @@ export const asText = (value, fallback = "") => {
 };
 
 export const asNumber = (value, fallback = 0) => {
-    const parsed = typeof value === "number" ? value : Number.parseFloat(String(value).replace(/,/g, "."));
+    const parsed =
+        typeof value === "number" ? value : Number.parseFloat(String(value).replace(/,/g, "."));
     return Number.isFinite(parsed) ? parsed : fallback;
 };
 

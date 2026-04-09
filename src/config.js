@@ -4,7 +4,7 @@
 
 export const CONFIG = {
     API_BASE_URL: "https://fe-assignment-api.ygnaaac.deno.net",
-    _TEST_MODE: "responsive",
+    _TEST_MODE: "static",
     // Available test modes:
     // static
     // responsive

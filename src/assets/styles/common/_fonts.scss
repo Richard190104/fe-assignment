@@ -1,73 +1,78 @@
 @use "./../init" as *;
 
 @font-face {
-	font-family: "DM Sans";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url("./../../fonts/DM_Sans/static/DMSans-Regular.ttf") format("truetype");
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("./../../fonts/DM_Sans/static/DMSans-Regular.ttf") format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "DM Sans";
-	font-style: normal;
-	font-weight: 500;
-	font-display: swap;
-	src: url("./../../fonts/DM_Sans/static/DMSans-Medium.ttf") format("truetype");
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 500;
+    src: url("./../../fonts/DM_Sans/static/DMSans-Medium.ttf") format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "DM Sans";
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: url("./../../fonts/DM_Sans/static/DMSans-SemiBold.ttf") format("truetype");
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 600;
+    src: url("./../../fonts/DM_Sans/static/DMSans-SemiBold.ttf") format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "DM Sans";
-	font-style: normal;
-	font-weight: 700;
-	font-display: swap;
-	src: url("./../../fonts/DM_Sans/static/DMSans-Bold.ttf") format("truetype");
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("./../../fonts/DM_Sans/static/DMSans-Bold.ttf") format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "Wix Madefor Display";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-Regular.ttf") format("truetype");
+    font-family: "Wix Madefor Display";
+    font-style: normal;
+    font-weight: 400;
+    src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-Regular.ttf")
+        format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "Wix Madefor Display";
-	font-style: normal;
-	font-weight: 500;
-	font-display: swap;
-	src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-Medium.ttf") format("truetype");
+    font-family: "Wix Madefor Display";
+    font-style: normal;
+    font-weight: 500;
+    src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-Medium.ttf")
+        format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "Wix Madefor Display";
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-SemiBold.ttf") format("truetype");
+    font-family: "Wix Madefor Display";
+    font-style: normal;
+    font-weight: 600;
+    src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-SemiBold.ttf")
+        format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "Wix Madefor Display";
-	font-style: normal;
-	font-weight: 700;
-	font-display: swap;
-	src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-Bold.ttf") format("truetype");
+    font-family: "Wix Madefor Display";
+    font-style: normal;
+    font-weight: 700;
+    src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-Bold.ttf")
+        format("truetype");
+    font-display: swap;
 }
 
 @font-face {
-	font-family: "Wix Madefor Display";
-	font-style: normal;
-	font-weight: 800;
-	font-display: swap;
-	src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-ExtraBold.ttf") format("truetype");
+    font-family: "Wix Madefor Display";
+    font-style: normal;
+    font-weight: 800;
+    src: url("./../../fonts/Wix_Madefor_Display/static/WixMadeforDisplay-ExtraBold.ttf")
+        format("truetype");
+    font-display: swap;
 }
