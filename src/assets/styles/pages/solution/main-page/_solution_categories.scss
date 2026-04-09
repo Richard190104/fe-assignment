@@ -15,7 +15,6 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 1rem;
-        grid-auto-rows: 40rem;
         grid-auto-flow: dense;
     }
 }
@@ -23,8 +22,9 @@
 .c-solution-category-card {
     position: relative;
     overflow: hidden;
+
     border-radius: 0.8rem;
-    padding: 2%;
+    padding: 25% 2% 2% 2%;
     line-height: 1.5;
 
     &:nth-child(1) {
@@ -220,5 +220,6 @@
         grid-column: 1 / -1;
         grid-row: auto;
         width: 100%;
+        padding: 2%;
     }
 }
