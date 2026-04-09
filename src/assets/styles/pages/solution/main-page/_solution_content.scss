@@ -14,13 +14,20 @@
         flex: 1;
         min-width: 0;
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 2rem;
         align-content: start;
         justify-items: stretch;
         width: 100%;
+        
     }
-   
+   &__banner {
+            grid-column: 1 / span 2;
+            grid-row: 1;
+            min-width: 0;
+        }
+
+
 }
 
 @media (max-width: 1250px) {
@@ -41,6 +48,11 @@
 
 @media (max-width: 550px){
     .c-solution-content {
+        &__banner {
+            grid-column: 1;
+            grid-row: 1;
+            min-width: 0;
+        }
         &__products {
             grid-template-columns: 1fr;
             justify-items: center;

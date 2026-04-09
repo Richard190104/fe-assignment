@@ -2,7 +2,6 @@
 
 .c-solution-cta {
     position: relative;
-    width: 64rem;
     height: 54rem;
     overflow: hidden;
     border-radius: 0.8rem;
@@ -93,6 +92,7 @@
     @media (max-width: 1250px) {
         .c-solution-cta {
             width: 100%;
+            height: auto;
         }
         
     }
