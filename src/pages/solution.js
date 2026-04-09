@@ -10,6 +10,28 @@ import { notification } from "../components/notification.js";
 
 let notificationTimeoutId;
 
+const showNotification = ({ title, message, type = "success", duration = 3000 }) => {
+    const notificationElement = document.querySelector(".c-notification");
+    const titleNode = notificationElement?.querySelector(".c-notification__title");
+    const messageNode = notificationElement?.querySelector(".c-notification__message");
+
+    if (!notificationElement || !titleNode || !messageNode) {
+        return;
+    }
+
+    notificationElement.classList.remove("is-success", "is-error");
+    notificationElement.classList.add(type === "error" ? "is-error" : "is-success");
+
+    titleNode.textContent = title;
+    messageNode.textContent = message;
+
+    notificationElement.classList.add("is-visible");
+    window.clearTimeout(notificationTimeoutId);
+    notificationTimeoutId = window.setTimeout(() => {
+        notificationElement.classList.remove("is-visible");
+    }, duration);
+};
+
 const openModal = () => {
     const modalElement = document.querySelector(".c-modal");
     modalElement?.removeAttribute("hidden");
@@ -41,37 +63,39 @@ const handleBannerClick = () => {
 
 const handleAddToCart = (product) => {
     const quantityInput = document.getElementById(`${product.id}-quantity`);
-    const notificationElement = document.querySelector(".c-notification");
-    const titleNode = notificationElement?.querySelector(".c-notification__title");
-    const messageNode = notificationElement?.querySelector(".c-notification__message");
-
-    if (!notificationElement || !titleNode || !messageNode) {
-        return;
-    }
 
     const quantity = Number.parseInt(quantityInput?.value, 10);
     const isSuccess = Number.isInteger(quantity) && quantity > 0 && quantity <= 10;
 
-    notificationElement.classList.remove("is-success", "is-error");
-    notificationElement.classList.add(isSuccess ? "is-success" : "is-error");
-
     if (isSuccess) {
-        titleNode.textContent = "Produkt pridaný do košíka";
-        messageNode.textContent = `${product.name} (${quantity} ks)`;
+        showNotification({
+            title: "Produkt pridaný do košíka",
+            message: `${product.name} (${quantity} ks)`,
+            type: "success",
+        });
     } else {
-        titleNode.textContent = "Produkt sa nepodarilo pridať";
+        let message = "Zvoľte platné množstvo aspoň 1 ks.";
         if (!Number.isInteger(quantity) || quantity <= 0) {
-        messageNode.textContent = "Zvoľte platné množstvo aspoň 1 ks.";
+            message = "Zvoľte platné množstvo aspoň 1 ks.";
         } else {
-        messageNode.textContent = "Maximálne množstvo pre tento produkt je 10 ks.";
+            message = "Maximálne množstvo pre tento produkt je 10 ks.";
         }
-    }
 
-    notificationElement.classList.add("is-visible");
-    window.clearTimeout(notificationTimeoutId);
-    notificationTimeoutId = window.setTimeout(() => {
-        notificationElement.classList.remove("is-visible");
-    }, 3000);
+        showNotification({
+            title: "Produkt sa nepodarilo pridať",
+            message,
+            type: "error",
+        });
+    }
+};
+
+const handleFormSubmitSuccess = ({ title, message, type }) => {
+    showNotification({
+        title,
+        message,
+        type,
+        duration: 3200,
+    });
 };
 
 const calculatePercentageDiscount = (originalPrice, salePrice) => {
@@ -305,6 +329,7 @@ export const renderSolutionPage = (data) => {
                 isOpen: false,
                 onClose: closeModal,
                 onBackdropClick: handleModalBackdropClick,
+                onSuccess: handleFormSubmitSuccess,
             })}
             
             ${notification("", "", "success")}
