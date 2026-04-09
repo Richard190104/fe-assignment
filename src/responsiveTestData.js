@@ -124,3 +124,143 @@ export const createResponsiveTestData = (baseData) => {
         categories: expandCollection(baseData.categories, 12, createCategoryVariant),
     };
 };
+
+export const createNoDataTestData = (baseData) => {
+    if (!baseData) {
+        return {
+            banner: null,
+            ctaBanner: null,
+            products: [],
+            categories: [],
+        };
+    }
+
+    return {
+        ...baseData,
+        banner: null,
+        ctaBanner: null,
+        products: [],
+        categories: [],
+    };
+};
+
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+export const createPartialEmptyTestData = (baseData) => {
+    if (!baseData) {
+        return {
+            banner: null,
+            ctaBanner: null,
+            products: [],
+            categories: [],
+        };
+    }
+
+    const halfProducts = Array.isArray(baseData.products)
+        ? baseData.products.slice(0, Math.max(2, Math.floor(baseData.products.length / 2)))
+        : [];
+    const halfCategories = Array.isArray(baseData.categories)
+        ? baseData.categories.slice(0, Math.max(2, Math.floor(baseData.categories.length / 2)))
+        : [];
+
+    return {
+        ...baseData,
+        banner: null,
+        ctaBanner: baseData.ctaBanner
+            ? {
+                  ...baseData.ctaBanner,
+                  title: "Fallback CTA test",
+                  description: "Čiastočne prázdny scenár: banner chýba, časť dát je prázdna.",
+              }
+            : null,
+        products: expandCollection(halfProducts, 8, createProductVariant),
+        categories: halfCategories.map((category, index) => ({
+            ...createCategoryVariant(category, index),
+            subcategories: index % 2 === 0 ? [] : (category.subcategories || []).slice(0, 4),
+        })),
+    };
+};
+
+export const createManyProductsTestData = (baseData) => {
+    if (!baseData) {
+        return createNoDataTestData(baseData);
+    }
+
+    return {
+        ...baseData,
+        products: expandCollection(baseData.products, 150, createProductVariant),
+        categories: expandCollection(baseData.categories, 8, createCategoryVariant),
+    };
+};
+
+export const createManyCategoriesTestData = (baseData) => {
+    if (!baseData) {
+        return createNoDataTestData(baseData);
+    }
+
+    return {
+        ...baseData,
+        products: expandCollection(baseData.products, 24, createProductVariant),
+        categories: expandCollection(baseData.categories, 30, createCategoryVariant).map((category, index) => ({
+            ...category,
+            subcategories: Array.isArray(category.subcategories)
+                ? category.subcategories.slice(0, index % 3 === 0 ? 3 : 10)
+                : [],
+        })),
+    };
+};
+
+export const createRandomScenarioTestData = (baseData) => {
+    if (!baseData) {
+        return createNoDataTestData(baseData);
+    }
+
+    const productTarget = randomInt(0, 120);
+    const categoryTarget = randomInt(0, 26);
+    const hideBanner = Math.random() < 0.25;
+    const hideCtaBanner = Math.random() < 0.35;
+
+    return {
+        ...baseData,
+        banner: hideBanner
+            ? null
+            : {
+                  ...baseData.banner,
+                  title: `${baseData.banner?.title || "Banner"} [random-${randomInt(1, 999)}]`,
+              },
+        ctaBanner: hideCtaBanner
+            ? null
+            : {
+                  ...baseData.ctaBanner,
+                  ctaText: randomInt(100, 999),
+              },
+        products: expandCollection(baseData.products, productTarget, createProductVariant),
+        categories: expandCollection(baseData.categories, categoryTarget, createCategoryVariant).map((category, index) => ({
+            ...category,
+            subcategories:
+                Math.random() < 0.2
+                    ? []
+                    : Array.isArray(category.subcategories)
+                      ? category.subcategories.slice(0, randomInt(2, index % 2 === 0 ? 14 : 8))
+                      : [],
+        })),
+    };
+};
+
+export const createResponsiveScenarioData = (baseData, mode = "responsive") => {
+    switch (mode) {
+        case "responsive-empty":
+            return createNoDataTestData(baseData);
+        case "responsive-partial-empty":
+            return createPartialEmptyTestData(baseData);
+        case "responsive-many-products":
+            return createManyProductsTestData(baseData);
+        case "responsive-many-categories":
+            return createManyCategoriesTestData(baseData);
+        case "responsive-random":
+            return createRandomScenarioTestData(baseData);
+        case "responsive":
+        default:
+            return createResponsiveTestData(baseData);
+    }
+};

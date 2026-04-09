@@ -165,6 +165,23 @@ const solutionBanner = (banner) => html`
     </div>
 `;
 
+const getShortenText = (text, maxLength) => {
+    if (typeof text !== "string") {
+        return text;
+    }
+    if (text.length <= maxLength) {
+        return text;
+    }
+    return text.slice(0, maxLength) + "...";
+}
+
+const emptyState = (title, description = "Skúste prosím obnoviť stránku.", className = "") => html`
+    <div class="c-empty-state ${className}">
+        <h3 class="c-empty-state__title">${title}</h3>
+        <p class="c-empty-state__description">${description}</p>
+    </div>
+`;
+
 const solutionProductCard = (product) => html`
     <div class="c-solution-product-card">
         <div class="c-solution-product-card__content">
@@ -173,7 +190,7 @@ const solutionProductCard = (product) => html`
             </div>
             <div class="c-solution-product-card__content__info">
                 ${Number.isFinite(asNumber(product.rating, Number.NaN)) ? rating(product.rating, product.reviewCount) : "Hodnotenia nie sú k dispozícii"}
-                <h3 class="c-solution-product-card__content__title">${asText(product.name, "Názov nie je k dispozícii")}</h3>
+                <h3 class="c-solution-product-card__content__title">${getShortenText(product.name, 25)}</h3>
                 <p class="c-solution-product-card__content__gray">${asText(product.sku, "SKU nie je k dispozícii")}</p>
                 <div class="c-solution-product-card__content__prices">
                     <del class="c-solution-product-card__content__original-price">${formatCurrency(product.originalPrice, product.currency)}</del>
@@ -210,22 +227,20 @@ const solutionProductCard = (product) => html`
     </div>
 `;  
 
+const MAX_SUBCATEGORIES_PER_CATEGORY = 8;
+
 const solutionCategoryCard = (category, index) => html`
-    <article class="c-solution-category-card ${index === 4 ? "is-tall" : ""}">
+    <article class="c-solution-category-card">
         <div class="c-solution-category-card__image" style="background-image: url(${category.imageUrl})"></div>
         <div class="c-solution-category-card__overlay"></div>
         <div class="c-solution-category-card__content">
             <div class="c-solution-category-card__header">
-                <h3 class="c-solution-category-card__title">${asText(category.name, "Kategória bez názvu")}</h3>
+                <h3 class="c-solution-category-card__title">${asText(getShortenText(category.name, 50), "Kategória bez názvu")}</h3>
                 <span class="c-solution-category-card__count">${asNumber(category.productCount, 0)}</span>
             </div>
 
-            <ul
-                class="c-solution-category-card__list ${category.subcategories?.length > 3 && index !== 4
-                    ? "is-two-columns"
-                    : ""}"
-            >
-                ${(category.subcategories || []).slice(0, 9).map(
+            <ul class="c-solution-category-card__list">
+                ${(category.subcategories || []).slice(0, MAX_SUBCATEGORIES_PER_CATEGORY).map(
                     (subcategory) => html`
                         <li class="c-solution-category-card__item">
                             <a href="${subcategory.link || "#"}" class="c-solution-category-card__sublink"
@@ -247,7 +262,9 @@ const solutionCategoryCard = (category, index) => html`
 const solutionCategories = (categories = []) => html`
     <section class="c-solution-categories">
         <h2 class="c-solution-categories__title">Top kategórie produktov</h2>
-        <div class="c-solution-categories__grid">${categories.map(solutionCategoryCard)}</div>
+        ${categories.length > 0
+            ? html`<div class="c-solution-categories__grid">${categories.map(solutionCategoryCard)}</div>`
+            : emptyState("Could not load categories.", "", "c-empty-state--categories")}
     </section>
 `;
 
@@ -305,7 +322,11 @@ export const renderSolutionPage = (data) => {
     return html`
         <div class="l-solution">
             <div class="l-solution__banner">
-                <div class="l-container">${data.banner ? solutionBanner(data.banner) : html``}</div>
+                <div class="l-container">
+                    ${data.banner
+                        ? solutionBanner(data.banner)
+                        : emptyState("Something went wrong.", "Could not load banner.", "c-empty-state--banner")}
+                </div>
             </div>
 
             <div class="l-solution__content">
@@ -315,9 +336,13 @@ export const renderSolutionPage = (data) => {
 
                         <div class="c-solution-content__products">
                         <div class="c-solution-content__banner">
-                            ${data.ctaBanner ? solutionCta(data.ctaBanner) : html``}
+                            ${data.ctaBanner
+                                ? solutionCta(data.ctaBanner)
+                                : emptyState("Something went wrong.", "Could not load CTA banner.", "c-empty-state--cta")}
                         </div>
-                            ${data.products?.map(solutionProductCard) || html``}
+                            ${(data.products?.length ?? 0) > 0
+                                ? data.products.map(solutionProductCard)
+                                : emptyState("Could not load products.", "", "c-empty-state--products")}
                         </div>
                     </div>
                 </div>

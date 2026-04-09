@@ -21,5 +21,5 @@ export const formatCurrency = (value, currency = "€", fallback = "Cena nie je 
         return fallback;
     }
 
-    return `${numericValue} ${asText(currency, "€")}`;
+    return `${numericValue.toFixed(2)} ${asText(currency, "€")}`;
 };

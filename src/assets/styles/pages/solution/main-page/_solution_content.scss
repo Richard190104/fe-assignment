@@ -21,6 +21,12 @@
         width: 100%;
         
     }
+
+   &__products .c-empty-state--products {
+            grid-column: 3 / span 2;
+            min-height: 24rem;
+        }
+
    &__banner {
             grid-column: 1 / span 2;
             grid-row: 1;
@@ -43,6 +49,10 @@
             width: 100%;
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        &__products .c-empty-state--products {
+            grid-column: 1 / -1;
+        }
     }
 }
 
@@ -56,6 +66,10 @@
         &__products {
             grid-template-columns: 1fr;
             justify-items: center;
+        }
+
+        &__products .c-empty-state--products {
+            grid-column: 1;
         }
 
     }

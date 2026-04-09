@@ -9,7 +9,7 @@ import categoryCleaningImage from "./assets/images/product-categories-cleaning.j
 import categoryElectricToolsImage from "./assets/images/product-categories-electric-tools.jpg";
 import categoryGardenImage from "./assets/images/product-categories-garden.jpg";
 import categoryToolsImage from "./assets/images/product-categories-tools.jpg";
-import { createResponsiveTestData } from "./responsiveTestData.js";
+import { createResponsiveScenarioData } from "./responsiveTestData.js";
 
 const CACHE_KEY = "fe_assignment_data_cache_v4";
 const CACHE_TIMESTAMP_KEY = "fe_assignment_data_timestamp_v4";
@@ -93,7 +93,8 @@ export const loadData = async () => {
     }
 
     const mode = CONFIG._TEST_MODE || "static";
-    const modeParam = mode === "static" || mode === "responsive" ? "" : `?mode=${mode}`;
+    const isResponsiveScenario = mode.startsWith("responsive");
+    const modeParam = mode === "static" || isResponsiveScenario ? "" : `?mode=${mode}`;
 
     try {
         console.log("[Data Loader] Fetching fresh data from API...");
@@ -115,13 +116,13 @@ export const loadData = async () => {
                 : [],
         };
 
-        const resultData = mode === "responsive" ? createResponsiveTestData(data) : data;
+        const resultData = isResponsiveScenario ? createResponsiveScenarioData(data, mode) : data;
 
         // Cache data in DEV mode
         setCachedData(resultData);
 
-        if (mode === "responsive") {
-            console.log("[Data Loader] Using responsive test data");
+        if (isResponsiveScenario) {
+            console.log(`[Data Loader] Using scenario mode: ${mode}`);
         }
 
         return resultData;
