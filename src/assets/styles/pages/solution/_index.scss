@@ -6,6 +6,7 @@
 @use "./main-page/solution_product";
 @use "./main-page/solution_categories";
 @use "./modal/modal";
+
 .l-solution {
     &__banner {
         margin-bottom: 10rem;
@@ -15,10 +16,10 @@
 .c-empty-state {
     width: 100%;
     padding: 2.4rem;
+    color: #1f2937;
+    background: #f8fafc;
     border: 1px dashed #d1d5db;
     border-radius: 0.8rem;
-    background: #f8fafc;
-    color: #1f2937;
 
     &__title {
         margin: 0 0 0.8rem;
@@ -36,14 +37,14 @@
 
     &--banner,
     &--categories {
-        min-height: 16rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        min-height: 16rem;
     }
 }
 
-@media (max-width: 1250px) {
+@media (width <= 1250px) {
     .l-solution {
         &__banner {
             margin-bottom: 4rem;
