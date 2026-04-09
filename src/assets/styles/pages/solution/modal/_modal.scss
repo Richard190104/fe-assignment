@@ -65,7 +65,8 @@
     &__required {
         margin-top: 4rem;
         font-family: "Wix Madefor Display", sans-serif;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        font-weight: 600;
         color: #e61b72;
         white-space: nowrap;
         span {
@@ -75,7 +76,23 @@
 
     &__form {
         display: grid;
-        gap: 2.2rem;
+    }
+
+    &__status {
+        min-height: 2rem;
+        margin: 0;
+        font-family: "Wix Madefor Display", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #19162a;
+
+        &.is-error {
+            color: #c81e1e;
+        }
+
+        &.is-success {
+            color: #0f8b4c;
+        }
     }
 
     &__row {
@@ -89,6 +106,13 @@
         flex-direction: column;
         gap: 0.9rem;
 
+    }
+
+    &__error {
+        min-height: 1.6rem;
+        font-family: "Wix Madefor Display", sans-serif;
+        font-size: 1.1rem;
+        color: #c81e1e;
     }
 
     &__field-label {
@@ -121,6 +145,11 @@
             outline: none;
             border-color: #e61b72;
             box-shadow: 0 0 0 1px #e61b72;
+        }
+
+        &.is-invalid {
+            border-color: #c81e1e;
+            box-shadow: 0 0 0 1px #c81e1e;
         }
     }
 
@@ -177,6 +206,13 @@
             border-color: #ce1a68;
         }
 
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+            background: #e07ba9;
+            border-color: #e07ba9;
+        }
+
         span {
             font-size: 2rem;
             line-height: 1;
@@ -186,9 +222,9 @@
     &__consent {
         margin: 0;
         font-family: "Wix Madefor Display", sans-serif;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         line-height: 1.45;
-        color: #1c182b;
+        color: #000000;
     }
 
     &__consent-link {

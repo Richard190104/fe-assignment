@@ -9,12 +9,14 @@ import { form } from "../components/modal.js";
 
 const openModal = () => {
     const modalElement = document.querySelector(".c-modal");
+    modalElement?.removeAttribute("hidden");
     modalElement?.classList.add("is-open");
 };
 
 const closeModal = () => {
     const modalElement = document.querySelector(".c-modal");
     modalElement?.classList.remove("is-open");
+    modalElement?.setAttribute("hidden", "");
 };
 
 // CTA button click handler
