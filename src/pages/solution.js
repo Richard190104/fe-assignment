@@ -3,9 +3,12 @@ import { loadData } from "../dataLoader.js";
 import {rating} from "../components/productRating.js";
 import cartIcon from "../assets/images/cart-icon.svg";
 import { form } from "../components/modal.js";
+import { notification } from "../components/notification.js";
 /**
  * Solution Page
  */
+
+let notificationTimeoutId;
 
 const openModal = () => {
     const modalElement = document.querySelector(".c-modal");
@@ -34,6 +37,41 @@ const handleModalBackdropClick = (event) => {
 const handleBannerClick = () => {
     console.log("Banner button clicked");
     // TODO: Navigate to products or filter
+};
+
+const handleAddToCart = (product) => {
+    const quantityInput = document.getElementById(`${product.id}-quantity`);
+    const notificationElement = document.querySelector(".c-notification");
+    const titleNode = notificationElement?.querySelector(".c-notification__title");
+    const messageNode = notificationElement?.querySelector(".c-notification__message");
+
+    if (!notificationElement || !titleNode || !messageNode) {
+        return;
+    }
+
+    const quantity = Number.parseInt(quantityInput?.value, 10);
+    const isSuccess = Number.isInteger(quantity) && quantity > 0 && quantity <= 10;
+
+    notificationElement.classList.remove("is-success", "is-error");
+    notificationElement.classList.add(isSuccess ? "is-success" : "is-error");
+
+    if (isSuccess) {
+        titleNode.textContent = "Produkt pridaný do košíka";
+        messageNode.textContent = `${product.name} (${quantity} ks)`;
+    } else {
+        titleNode.textContent = "Produkt sa nepodarilo pridať";
+        if (!Number.isInteger(quantity) || quantity <= 0) {
+        messageNode.textContent = "Zvoľte platné množstvo aspoň 1 ks.";
+        } else {
+        messageNode.textContent = "Maximálne množstvo pre tento produkt je 10 ks.";
+        }
+    }
+
+    notificationElement.classList.add("is-visible");
+    window.clearTimeout(notificationTimeoutId);
+    notificationTimeoutId = window.setTimeout(() => {
+        notificationElement.classList.remove("is-visible");
+    }, 3000);
 };
 
 const calculatePercentageDiscount = (originalPrice, salePrice) => {
@@ -127,7 +165,7 @@ const solutionProductCard = (product) => html`
                         <button class="c-solution-product-card__content__actions__quantity__button" @click=${() => handleQuantityChange(product, 1)}>+</button>
 
                     </div>
-                    <button class="c-solution-product-card__content__actions__cart-button">
+                    <button class="c-solution-product-card__content__actions__cart-button" @click=${() => handleAddToCart(product)}>
                         <img
                             class="c-solution-product-card__content__actions__cart-icon"
                             src="${cartIcon}"
@@ -268,6 +306,8 @@ export const renderSolutionPage = (data) => {
                 onClose: closeModal,
                 onBackdropClick: handleModalBackdropClick,
             })}
+            
+            ${notification("", "", "success")}
         </div>
     `;
 };
