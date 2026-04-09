@@ -191,7 +191,7 @@ const solutionProductCard = (product) => html`
             <div class="c-solution-product-card__content__info">
                 ${Number.isFinite(asNumber(product.rating, Number.NaN)) ? rating(product.rating, product.reviewCount) : "Hodnotenia nie sú k dispozícii"}
                 <h3 class="c-solution-product-card__content__title">${getShortenText(product.name, 25)}</h3>
-                <p class="c-solution-product-card__content__gray">${asText(product.sku, "SKU nie je k dispozícii")}</p>
+                <p class="c-solution-product-card__content__gray">${asText(getShortenText(product.sku, 25), "SKU nie je k dispozícii")}</p>
                 <div class="c-solution-product-card__content__prices">
                     <del class="c-solution-product-card__content__original-price">${formatCurrency(product.originalPrice, product.currency)}</del>
                     <p>
@@ -200,7 +200,7 @@ const solutionProductCard = (product) => html`
                         </data>
                     </p>
                     <p class="c-solution-product-card__content__gray">${formatCurrency(product.priceWithoutVAT, product.currency)} bez DPH</p>
-                    <p class="c-solution-product-card__content__green">${asText(product.stock, "Žiadne dostupné informácie")}</p>
+                    <p class="c-solution-product-card__content__green">${asText(getShortenText(product.stock, 27), "Žiadne dostupné informácie")}</p>
                 </div>
                
                 <div class="c-solution-product-card__content__actions">
@@ -244,7 +244,7 @@ const solutionCategoryCard = (category, index) => html`
                     (subcategory) => html`
                         <li class="c-solution-category-card__item">
                             <a href="${subcategory.link || "#"}" class="c-solution-category-card__sublink"
-                                >${asText(subcategory.name, "Bez názvu")}</a
+                                >${asText(getShortenText(subcategory.name, 50), "Bez názvu")}</a
                             >
                         </li>
                     `

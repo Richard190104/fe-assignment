@@ -15,11 +15,15 @@ export const asNumber = (value, fallback = 0) => {
     return Number.isFinite(parsed) ? parsed : fallback;
 };
 
+const acceptedCurrencies = ["€", "EUR", "$", "USD", "£", "GBP"];
+
 export const formatCurrency = (value, currency = "€", fallback = "Cena nie je k dispozícii") => {
     const numericValue = asNumber(value, Number.NaN);
     if (!Number.isFinite(numericValue)) {
         return fallback;
     }
-
+    if (!acceptedCurrencies.includes(currency)) {
+        currency = "(?)";
+    }
     return `${numericValue.toFixed(2)} ${asText(currency, "€")}`;
 };
