@@ -96,34 +96,31 @@
     }
 }
 
-
-
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
     .c-solution-banner {
         min-height: 48rem;
         border-radius: 0;
-        &__content {
 
+        &__content {
             &__title {
                 font-size: 4.2rem;
-            
             }
-          
         }
-                  &__image,
+
+        &__image,
         &__overlay {
             border-radius: 0;
         }
     }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .c-solution-banner {
         height: 60rem;
 
         &__content {
-            justify-content: flex-end;
             gap: 1.8rem;
+            justify-content: flex-end;
             padding: 2.4rem 2rem;
 
             &__title {
@@ -136,8 +133,8 @@
             }
 
             &__button {
-                width: 100%;
                 justify-content: center;
+                width: 100%;
                 padding: 1.4rem 1.6rem;
             }
         }

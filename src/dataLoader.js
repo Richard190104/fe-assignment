@@ -109,10 +109,14 @@ export const loadData = async () => {
             banner: withForcedLocalImage(banner.data, mainBannerImage),
             ctaBanner: withForcedLocalImage(ctaBanner.data, secretOfferBannerImage),
             products: Array.isArray(products.data)
-                ? products.data.map((item, index) => withForcedLocalImage(item, PRODUCT_LOCAL_IMAGES[index]))
+                ? products.data.map((item, index) =>
+                      withForcedLocalImage(item, PRODUCT_LOCAL_IMAGES[index])
+                  )
                 : [],
             categories: Array.isArray(categories.data)
-                ? categories.data.map((item, index) => withForcedLocalImage(item, CATEGORY_LOCAL_IMAGES[index]))
+                ? categories.data.map((item, index) =>
+                      withForcedLocalImage(item, CATEGORY_LOCAL_IMAGES[index])
+                  )
                 : [],
         };
 

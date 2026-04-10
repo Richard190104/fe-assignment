@@ -72,6 +72,13 @@ function handleFieldInput(event) {
     }
 }
 
+function handleDialogKeydown(event, onClose) {
+    if (event.key === "Escape") {
+        event.preventDefault();
+        onClose?.();
+    }
+}
+
 async function handleSubmit(e, { onSuccess, onClose } = {}) {
     e.preventDefault();
 
@@ -129,7 +136,10 @@ async function handleSubmit(e, { onSuccess, onClose } = {}) {
     submitButton?.removeAttribute("disabled");
 
     if (!emailValidationResponse?.success) {
-        setFieldError(emailInput, emailValidationResponse?.message || "E-mail sa nepodarilo overiť.");
+        setFieldError(
+            emailInput,
+            emailValidationResponse?.message || "E-mail sa nepodarilo overiť."
+        );
         showFormMessage(formElement, "Zadali ste nesprávny E-mail.", "is-error");
         return;
     }
@@ -143,44 +153,93 @@ async function handleSubmit(e, { onSuccess, onClose } = {}) {
         type: "success",
     });
 
-        onClose?.();
+    onClose?.();
 }
 
-export const form = ({ title, description, isOpen, onClose, onBackdropClick, onSuccess }) => html`
+export const form = ({ title, isOpen, onClose, onBackdropClick, onSuccess }) => html`
     <div class="c-modal ${isOpen ? "is-open" : ""}" @click=${onBackdropClick} ?hidden=${!isOpen}>
-        <div class="c-modal__dialog" role="dialog" aria-modal="true" aria-label=${title}>
-            <button class="c-modal__close" @click=${onClose} aria-label="Zatvoriť formulár">×</button>
+        <div
+            class="c-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label=${title}
+            @keydown=${(event) => handleDialogKeydown(event, onClose)}
+        >
+            <button class="c-modal__close" @click=${onClose} aria-label="Zatvoriť formulár">
+                ×
+            </button>
             <div class="c-modal-form">
                 <div class="c-modal-form__head">
                     <h2 class="c-modal-form__title">${title}</h2>
-                    <p class="c-modal-form__required"><span aria-hidden="true">*</span> povinné polia</p>
+                    <p class="c-modal-form__required">
+                        <span aria-hidden="true">*</span> povinné polia
+                    </p>
                 </div>
-                <form class="c-modal-form__form" @submit=${(e) => handleSubmit(e, { onSuccess, onClose })} novalidate>
+                <form
+                    class="c-modal-form__form"
+                    @submit=${(e) => handleSubmit(e, { onSuccess, onClose })}
+                    novalidate
+                >
                     <p class="c-modal-form__status" aria-live="polite"></p>
                     <label class="c-modal-form__field">
-                        <span class="c-modal-form__field-label">E-mail <span aria-hidden="true">*</span></span>
-                        <input class="c-modal-form__field-input" name="email" type="email" placeholder="" @input=${handleFieldInput} required />
+                        <span class="c-modal-form__field-label"
+                            >E-mail <span aria-hidden="true">*</span></span
+                        >
+                        <input
+                            class="c-modal-form__field-input"
+                            name="email"
+                            type="email"
+                            placeholder=""
+                            @input=${handleFieldInput}
+                            required
+                        />
                         <small class="c-modal-form__error"></small>
                     </label>
 
                     <div class="c-modal-form__row">
                         <label class="c-modal-form__field">
-                            <span class="c-modal-form__field-label">Meno a priezvisko <span aria-hidden="true">*</span></span>
-                            <input class="c-modal-form__field-input" name="fullName" type="text" placeholder="" @input=${handleFieldInput} required />
+                            <span class="c-modal-form__field-label"
+                                >Meno a priezvisko <span aria-hidden="true">*</span></span
+                            >
+                            <input
+                                class="c-modal-form__field-input"
+                                name="fullName"
+                                type="text"
+                                placeholder=""
+                                @input=${handleFieldInput}
+                                required
+                            />
                             <small class="c-modal-form__error"></small>
                         </label>
 
                         <label class="c-modal-form__field">
-                            <span class="c-modal-form__field-label">Telefónne číslo (mobil) <span aria-hidden="true">*</span></span>
-                            <input class="c-modal-form__field-input" name="phone" type="tel" placeholder="+421 _ _ _  _ _ _  _ _ _" @input=${handleFieldInput} required />
+                            <span class="c-modal-form__field-label"
+                                >Telefónne číslo (mobil) <span aria-hidden="true">*</span></span
+                            >
+                            <input
+                                class="c-modal-form__field-input"
+                                name="phone"
+                                type="tel"
+                                placeholder="+421 _ _ _  _ _ _  _ _ _"
+                                @input=${handleFieldInput}
+                                required
+                            />
                             <small class="c-modal-form__error"></small>
                         </label>
                     </div>
 
                     <label class="c-modal-form__field">
-                        <span class="c-modal-form__field-label">Odkiaľ ste sa o tejto ponuke dozvedeli? <span aria-hidden="true">*</span></span>
+                        <span class="c-modal-form__field-label"
+                            >Odkiaľ ste sa o tejto ponuke dozvedeli?
+                            <span aria-hidden="true">*</span></span
+                        >
                         <div class="c-modal-form__select-wrap">
-                            <select class="c-modal-form__field-input c-modal-form__field-input--select" name="service" @change=${handleFieldInput} required>
+                            <select
+                                class="c-modal-form__field-input c-modal-form__field-input--select"
+                                name="service"
+                                @change=${handleFieldInput}
+                                required
+                            >
                                 <option value="" selected disabled>Vyberte možnosť</option>
                                 <option value="web">Priamo z vášho webu</option>
                                 <option value="social">Zo sociálnych sietí</option>
@@ -198,7 +257,9 @@ export const form = ({ title, description, isOpen, onClose, onBackdropClick, onS
                         </button>
                         <p class="c-modal-form__consent">
                             Odoslaním formuláru súhlasíte so
-                            <a href="#" class="c-modal-form__consent-link">spracovaním osobných údajov</a>
+                            <a href="#" class="c-modal-form__consent-link"
+                                >spracovaním osobných údajov</a
+                            >
                         </p>
                     </div>
                 </form>
