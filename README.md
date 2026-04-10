@@ -79,42 +79,92 @@ npm run eslint-dry-run
 ## Project Structure
 
 ```
-├── index.html                  # HTML entry point
-├── package.json                # Project dependencies and scripts
-├── vite.config.js              # Vite configuration
-├── tsconfig.json               # TypeScript configuration
-├── eslint.config.js            # ESLint configuration
-├── .prettierrc.js              # Prettier configuration
-├── .stylelintrc.js             # Stylelint configuration
-├── .prettierignore             # Files to ignore for Prettier
-├── .stylelintignore            # Files to ignore for Stylelint
-├── .gitignore                  # Git ignore rules
-├── .nvmrc                      # Node version specification
-├── src/
-│   ├── main.js                # Application entry point
-│   ├── router.js              # Simple vanilla JS router
-│   ├── config.js              # Application configuration (API URL, dev settings)
-│   ├── dataLoader.js          # Data loading with API integration and caching
-│   ├── api/
-│   │   └── emailApi.js        # Email validation API client
-│   ├── assets/
-│   │   ├── images/
-│   │   │   ├── logo.svg       # RIESENIA logo
-│   │   │   └── gradient.jpg   # Header gradient background
-│   │   └── styles/
-│   │       ├── import.scss    # Main SCSS entry point
-│   │       ├── init/          # Variables, mixins
-│   │       ├── common/        # Reset, fonts, layout
-│   │       ├── layout/        # Header, footer, layout
-│   │       └── pages/         # Page-specific styles
-│   ├── components/
-│   │   ├── header.js          # Header component
-│   │   └── footer.js          # Footer component
-│   └── pages/
-│       ├── assignment.js      # Assignment description page
-│       └── solution.js        # Solution implementation page
+├── index.html                                          # HTML entry point
+├── package.json                                        # Project dependencies and scripts
+├── vite.config.js                                      # Vite configuration
+├── tsconfig.json                                       # TypeScript configuration
+├── eslint.config.js                                    # ESLint configuration
+├── .prettierrc.js                                      # Prettier configuration
+├── .stylelintrc.js                                     # Stylelint configuration
+├── .prettierignore                                     # Files to ignore for Prettier
+├── .stylelintignore                                    # Files to ignore for Stylelint
+├── .gitignore                                          # Git ignore rules
+├── .nvmrc                                              # Node version specification
+├─ src                                                 
+│  ├─ api                                               # API communication layer
+│  │  └─ emailApi.js                                    # Email validation/submission API helper
+│  ├─ assets                                            # Static project assets
+│  │  ├─ fonts                                          # Local font files and licenses
+│  │  │  ├─ DM_Sans                                     # DM Sans font family resources
+│  │  │  ├─ Wix_Madefor_Display                         # Wix Madefor Display font family resources
+│  │  ├─ images                                         # Images used across the UI
+│  │  │  ├─ cart-icon.svg                               # Cart icon for purchase actions
+│  │  │  ├─ gradient.jpg                                # Decorative gradient background image
+│  │  │  ├─ logo.svg                                    # Brand logo used in header/navigation
+│  │  │  ├─ main-banner.jpg                             # Main hero/banner image
+│  │  │  ├─ product-categories-acc..jpg                 # Category image for accessories
+│  │  │  ├─ product-categories-cleaning.jpg             # Category image for cleaning
+│  │  │  ├─ product-categories-electric-tools.jpg       # Category image for electric tools
+│  │  │  ├─ product-categories-garden.jpg               # Category image for garden
+│  │  │  ├─ product-categories-tools.jpg                # Category image for tools
+│  │  │  ├─ product-dewalt.png                          # Product image for Dewalt card
+│  │  │  ├─ product-metabo.png                          # Product image for Metabo card
+│  │  │  └─ secret-offer-banner.jpg                     # CTA/offer banner image
+│  │  └─ styles                                        
+│  │     ├─ common                                     
+│  │     │  ├─ _fonts.scss                              # Font-face declarations and font helpers
+│  │     │  ├─ _index.scss                              # Common styles barrel/import index
+│  │     │  ├─ _layout.scss                             # Global body/container layout defaults
+│  │     │  └─ _reset.scss                              # CSS reset and base normalization
+│  │     ├─ import.scss                                 # Main style entry imported by app
+│  │     ├─ init                                       
+│  │     │  ├─ _index.scss                              # Init styles barrel/import index
+│  │     │  ├─ _mixins.scss                             # Reusable SCSS mixins
+│  │     │  └─ _variables.scss                          # Shared CSS variables/design tokens
+│  │     ├─ layout                                      
+│  │     │  ├─ _footer.scss                             # Footer component styling
+│  │     │  ├─ _header.scss                             # Header/navigation styling
+│  │     │  ├─ _index.scss                              # Layout styles barrel/import index
+│  │     │  └─ _layout.scss                             # Page layout helpers and wrappers
+│  │     └─ pages                                      
+│  │        ├─ assignment                              
+│  │        │  └─ _index.scss                          
+│  │        └─ solution                                 # Styles for solution route
+│  │           ├─ main-page                             
+│  │           │  ├─ _solution_banner.scss              # Solution banner styles
+│  │           │  ├─ _solution_categories.scss          # Category grid/card styles
+│  │           │  ├─ _solution_content.scss             # Main content grid/layout styles
+│  │           │  ├─ _solution_cta.scss                 # CTA section styles
+│  │           │  └─ _solution_product.scss             # Product card styles
+│  │           ├─ modal                                
+│  │           │  └─ _modal.scss                        # Modal dialog and form styles
+│  │           ├─ notification                          
+│  │           │  └─ _notification.scss                 # Notification component styles
+│  │           └─ _index.scss                           # Solution styles barrel/import index
+│  ├─ components                                        
+│  │  ├─ footer.js                                      # Footer renderer/component
+│  │  ├─ header.js                                      # Header renderer/component                          
+│  ├─ config.js                                         # Runtime config and feature/test flags
+│  ├─ dataLoader.js                                     # Data fetching and caching logic
+│  ├─ main.js                                           # Application entry point
+│  ├─ pages                                             
+│  │  ├─ assignment.js                                  # Assignment description page
+│  │  ├─ solution                                       
+│  │  │  └─ components                                  # Section render helpers for solution page
+│  │  │     ├─ bannerSection.js                         # Banner section template
+│  │  │     ├─ categorySection.js                       # Category section component
+│  │  │     ├─ productSection.js                        # Product section component
+│  │  │     ├─ modal.js                                 # Modal renderer and form behavior
+│  │  │     ├─ notification.js                          # Notification component
+│  │  │     ├─ productRating.js                         # Product rating component (stars)
+│  │  │     └─ shared.js                                # Shared helpers
+│  │  └─ solution.js                                    # Solution implementation page
+│  ├─ responsiveTestData.js                             # Generated mock datasets for responsive testing
+│  ├─ router.js                                         # Client-side routing and navigation
+│  └─ utils                                             
+│     └─ display.js                                     # Display/formatting utility functions
 └── public/
-    └── favicon.ico            # Browser favicon
+    └── favicon.ico            
 ```
 
 ## Features
@@ -227,3 +277,4 @@ const list = html`
     </ul>
 `;
 ```
+

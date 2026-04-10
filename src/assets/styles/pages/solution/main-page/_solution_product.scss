@@ -104,8 +104,9 @@
 
         &__actions {
             display: grid;
-            grid-template-columns: 40% 50%;
-            gap: 10%;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+            gap: 1.2rem;
+            align-items: end;
             margin-top: auto;
             margin-bottom: 0;
 

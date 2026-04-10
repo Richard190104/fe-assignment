@@ -1,5 +1,5 @@
 import { html } from "lit-html";
-import { validateEmail } from "../api/emailApi.js";
+import { validateEmail } from "../../../api/emailApi.js";
 
 const EMAIL_FORMAT_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_ALLOWED_REGEX = /^[+\d\s]+$/;

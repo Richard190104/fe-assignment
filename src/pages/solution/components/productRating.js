@@ -1,5 +1,5 @@
 import { html } from "lit-html";
-import { asNumber } from "../utils/display.js";
+import { asNumber } from "../../../utils/display.js";
 
 export const rating = (rating, reviewCount) => html`
     <div class="c-product-rating">
