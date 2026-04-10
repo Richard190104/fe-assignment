@@ -1,1 +1,18 @@
-// empty for now
+:root {
+	// base colors
+	--c-white: #fff;
+	--c-black: #000;
+	--c-border: #e0e2e8;
+	--btn-color: #dd1969;
+
+	// project colors
+	--c-font: var(--c-black);
+	--c-bg: #f5f5f5;
+
+	// sizes
+	--s-container-padding: 2rem;
+
+	// fonts
+	--f-primary: "DM Sans", system-ui, avenir, helvetica, arial, sans-serif;
+	--f-title: "Wix Madefor Display", "DM Sans", system-ui, sans-serif;
+}
