@@ -1,7 +1,7 @@
 import { html } from "lit-html";
 import { loadData } from "../dataLoader.js";
-import { form } from "../components/modal.js";
-import { notification } from "../components/notification.js";
+import { form } from "./solution/components/modal.js";
+import { notification } from "./solution/components/notification.js";
 import { asNumber, asText, formatCurrency } from "../utils/display.js";
 import { solutionBanner, solutionCta } from "./solution/components/bannerSection.js";
 import { solutionProductCard } from "./solution/components/productSection.js";

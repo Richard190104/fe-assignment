@@ -1,5 +1,5 @@
 import { html } from "lit-html";
-import { rating } from "../../../components/productRating.js";
+import { rating } from "./productRating.js";
 import cartIcon from "../../../assets/images/cart-icon.svg";
 import { calculatePercentageDiscount, getShortenText } from "./shared.js";
 
